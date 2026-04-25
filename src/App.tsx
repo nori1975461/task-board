@@ -1,10 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TaskInput from './components/TaskInput'
 import TaskList from './components/TaskList'
 import type { Task } from './types'
 
+const STORAGE_KEY = 'tasks'
+
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([])
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      return saved ? (JSON.parse(saved) as Task[]) : []
+    } catch {
+      return []
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
+  }, [tasks])
 
   const addTask = (text: string) => {
     setTasks(prev => [
