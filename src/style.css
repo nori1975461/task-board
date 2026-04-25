@@ -1,0 +1,132 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 560px;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Input area */
+.task-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 0.625rem 0.875rem;
+  border: 2px solid #d0d7de;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.task-input input:focus {
+  border-color: #4f6ef7;
+}
+
+.task-input button {
+  padding: 0.625rem 1.25rem;
+  background: #4f6ef7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.task-input button:hover {
+  background: #3a57e8;
+}
+
+/* Task list */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e4e8ee;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  transition: opacity 0.2s;
+}
+
+.task-item.completed {
+  opacity: 0.5;
+}
+
+.task-item input[type='checkbox'] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: #4f6ef7;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 1rem;
+  color: #1a1a2e;
+  word-break: break-all;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: #8a8a9a;
+}
+
+.delete-btn {
+  padding: 0.3rem 0.75rem;
+  background: transparent;
+  color: #e05252;
+  border: 1px solid #e05252;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.delete-btn:hover {
+  background: #e05252;
+  color: #fff;
+}
+
+.empty {
+  text-align: center;
+  color: #8a8a9a;
+  margin-top: 2rem;
+}
