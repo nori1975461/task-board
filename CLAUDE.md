@@ -30,6 +30,32 @@ src/
 
 State lives entirely in `App.tsx` and is passed down as props. No external state library.
 
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| UI | React 18 |
+| Language | TypeScript 5 (strict mode) |
+| Bundler | webpack 5 + ts-loader + css-loader |
+| Styling | Plain CSS (`src/style.css`) — no CSS-in-JS, no utility framework |
+| State | `useState` in `App.tsx` only — no Redux, Zustand, or Context |
+| Persistence | `localStorage` (key: `tasks`) |
+| CI/CD | GitHub Actions → GitHub Pages |
+
+## Component Naming Conventions
+
+- **File names**: PascalCase `.tsx` (e.g. `TaskItem.tsx`)
+- **Component names**: match the file name exactly
+- **Props interface**: named `Props`, defined inline at the top of the same file
+- **Event handler props**: prefixed with `on` + verb (e.g. `onAdd`, `onToggle`, `onDelete`)
+- **CSS classes**: kebab-case matching the component role (e.g. `.task-item`, `.delete-btn`)
+
+## Deploy
+
+- Production URL: https://nori1975461.github.io/task-board/
+- Deployed automatically by GitHub Actions on every push to `main`
+- Production `publicPath` is `/task-board/`; dev server uses `/`
+
 ## Git Rules
 
 - After every code change, stage and commit the relevant files, then push to GitHub immediately.
