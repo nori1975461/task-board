@@ -4,12 +4,13 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-export default {
+export default (_env, argv) => ({
   entry: './src/main.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     clean: true,
+    publicPath: argv.mode === 'production' ? '/task-board/' : '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -36,4 +37,4 @@ export default {
     port: 3000,
     hot: true,
   },
-}
+})
