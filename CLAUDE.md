@@ -21,7 +21,6 @@ src/
   App.tsx           # root component; owns tasks state + add/toggle/delete handlers
   types.ts          # Task interface { id, text, completed }
   style.css         # global styles (all component styles live here)
-  vite-env.d.ts     # CSS module type declaration
   components/
     TaskInput.tsx   # controlled form — calls onAdd(text) on submit
     TaskList.tsx    # maps tasks → TaskItem; shows empty state
