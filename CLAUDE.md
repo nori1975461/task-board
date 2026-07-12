@@ -57,10 +57,7 @@ State lives entirely in `App.tsx` and is passed down as props. No external state
 
 ## Git Rules
 
-- After every code change, stage and commit the relevant files, then push to GitHub immediately.
-- Use descriptive commit messages that explain *why* the change was made, not just what.
-- Never force-push to `main` or `master`.
-- Do not skip pre-commit hooks (`--no-verify`).
+Follow the shared rules in `~/.claude/CLAUDE.md` (push after every change, no `git add -A`, no force-push, no `--no-verify`).
 
 ## Notes
 
