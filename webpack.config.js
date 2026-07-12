@@ -8,7 +8,7 @@ export default (_env, argv) => ({
   entry: './src/main.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     clean: true,
     publicPath: argv.mode === 'production' ? '/task-board/' : '/',
   },
@@ -31,6 +31,7 @@ export default (_env, argv) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
+      favicon: './public/favicon.svg',
     }),
   ],
   devServer: {
