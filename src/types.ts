@@ -10,3 +10,5 @@ export type Task = {
 }
 
 export type Filter = 'all' | 'active' | 'completed'
+
+export type Theme = 'auto' | 'light' | 'dark'

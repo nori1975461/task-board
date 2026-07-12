@@ -3,9 +3,19 @@ import type { Priority, Task } from '../types'
 
 interface Props {
   task: Task
+  index: number
+  total: number
+  reorderable: boolean
+  dragging: boolean
+  dragOver: boolean
   onToggle: (id: string) => void
   onUpdate: (id: string, patch: Partial<Omit<Task, 'id'>>) => void
   onDelete: (id: string) => void
+  onMove: (from: number, to: number) => void
+  onDragStart: (index: number) => void
+  onDragOver: (index: number) => void
+  onDrop: (index: number) => void
+  onDragEnd: () => void
 }
 
 const PRIORITY_LABEL: Record<Priority, string> = {
@@ -30,7 +40,22 @@ function dueInfo(dueDate: string | null, completed: boolean) {
   return { className: 'due', label: dueDate }
 }
 
-export default function TaskItem({ task, onToggle, onUpdate, onDelete }: Props) {
+export default function TaskItem({
+  task,
+  index,
+  total,
+  reorderable,
+  dragging,
+  dragOver,
+  onToggle,
+  onUpdate,
+  onDelete,
+  onMove,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
+}: Props) {
   const [editing, setEditing] = useState(false)
   const [draftTitle, setDraftTitle] = useState(task.title)
   const [draftDue, setDraftDue] = useState(task.dueDate ?? '')
@@ -128,9 +153,79 @@ export default function TaskItem({ task, onToggle, onUpdate, onDelete }: Props) 
   }
 
   const info = dueInfo(task.dueDate, task.completed)
+  const isFirst = index === 0
+  const isLast = index === total - 1
+  const className =
+    `task-item priority-${task.priority}` +
+    (task.completed ? ' completed' : '') +
+    (dragging ? ' dragging' : '') +
+    (dragOver ? ' drag-over' : '')
 
   return (
-    <li className={`task-item priority-${task.priority}${task.completed ? ' completed' : ''}`}>
+    <li
+      className={className}
+      onDragOver={
+        reorderable
+          ? e => {
+              e.preventDefault()
+              e.dataTransfer.dropEffect = 'move'
+              onDragOver(index)
+            }
+          : undefined
+      }
+      onDrop={
+        reorderable
+          ? e => {
+              e.preventDefault()
+              onDrop(index)
+            }
+          : undefined
+      }
+    >
+      <div
+        className="reorder"
+        title={
+          reorderable ? undefined : '並べ替えは「すべて」表示・検索が空のときだけ使えます'
+        }
+      >
+        <span
+          className={`drag-handle${reorderable ? '' : ' disabled'}`}
+          draggable={reorderable}
+          onDragStart={
+            reorderable
+              ? e => {
+                  e.dataTransfer.effectAllowed = 'move'
+                  e.dataTransfer.setData('text/plain', String(index))
+                  onDragStart(index)
+                }
+              : undefined
+          }
+          onDragEnd={reorderable ? onDragEnd : undefined}
+          aria-hidden="true"
+        >
+          ⠿
+        </span>
+        <span className="reorder-arrows">
+          <button
+            type="button"
+            className="move-btn"
+            onClick={() => onMove(index, index - 1)}
+            disabled={!reorderable || isFirst}
+            aria-label="上へ移動"
+          >
+            ▲
+          </button>
+          <button
+            type="button"
+            className="move-btn"
+            onClick={() => onMove(index, index + 1)}
+            disabled={!reorderable || isLast}
+            aria-label="下へ移動"
+          >
+            ▼
+          </button>
+        </span>
+      </div>
       <input
         type="checkbox"
         checked={task.completed}

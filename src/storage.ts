@@ -1,7 +1,10 @@
-import type { Priority, Task } from './types'
+import type { Priority, Task, Theme } from './types'
 
 const KEY = 'task-board:v2'
 const LEGACY_KEY = 'tasks'
+const THEME_KEY = 'task-board:theme'
+
+const THEMES: readonly Theme[] = ['auto', 'light', 'dark']
 
 const PRIORITIES: readonly Priority[] = ['high', 'normal', 'low']
 
@@ -92,5 +95,36 @@ export function saveTasks(tasks: Task[]): void {
     localStorage.setItem(KEY, JSON.stringify(tasks))
   } catch (e) {
     console.error('タスクの保存に失敗しました', e)
+  }
+}
+
+// JSONインポート用。文字列を検証しTask[]を返す。JSONとして壊れている/配列でない
+// 場合のみ null（＝読み込み不可）を返す。要素単位の不正は既存のcoerceで補正/除外する。
+export function parseImportedTasks(raw: string): Task[] | null {
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(raw)
+  } catch {
+    return null
+  }
+  if (!Array.isArray(parsed)) return null
+  return parsed.map(coerceV2Task).filter((t): t is Task => t !== null)
+}
+
+export function loadTheme(): Theme {
+  try {
+    const v = localStorage.getItem(THEME_KEY)
+    if (v !== null && (THEMES as readonly string[]).includes(v)) return v as Theme
+  } catch {
+    // 読めない場合は自動
+  }
+  return 'auto'
+}
+
+export function saveTheme(theme: Theme): void {
+  try {
+    localStorage.setItem(THEME_KEY, theme)
+  } catch (e) {
+    console.error('テーマの保存に失敗しました', e)
   }
 }
