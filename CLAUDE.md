@@ -16,10 +16,13 @@ npm run preview    # serve the production build locally
 Single-page React + TypeScript app bundled with webpack 5.
 
 ```
+public/
+  favicon.svg       # app icon; copied to dist/ by HtmlWebpackPlugin's `favicon` option
 src/
   main.tsx          # ReactDOM.createRoot entry point
   App.tsx           # root component; owns tasks state + add/toggle/delete handlers
   types.ts          # Task interface { id, text, completed }
+  css.d.ts          # ambient `declare module '*.css'` for CSS imports
   style.css         # global styles (all component styles live here)
   components/
     TaskInput.tsx   # controlled form — calls onAdd(text) on submit
@@ -33,7 +36,7 @@ State lives entirely in `App.tsx` and is passed down as props. No external state
 
 | Layer | Choice |
 |---|---|
-| UI | React 18 |
+| UI | React 19 |
 | Language | TypeScript 5 (strict mode) |
 | Bundler | webpack 5 + ts-loader + css-loader |
 | Styling | Plain CSS (`src/style.css`) — no CSS-in-JS, no utility framework |
