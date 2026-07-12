@@ -4,10 +4,11 @@ import TaskItem from './TaskItem'
 interface Props {
   tasks: Task[]
   onToggle: (id: string) => void
+  onUpdate: (id: string, patch: Partial<Omit<Task, 'id'>>) => void
   onDelete: (id: string) => void
 }
 
-export default function TaskList({ tasks, onToggle, onDelete }: Props) {
+export default function TaskList({ tasks, onToggle, onUpdate, onDelete }: Props) {
   if (tasks.length === 0) {
     return <p className="empty">タスクはまだありません</p>
   }
@@ -19,6 +20,7 @@ export default function TaskList({ tasks, onToggle, onDelete }: Props) {
           key={task.id}
           task={task}
           onToggle={onToggle}
+          onUpdate={onUpdate}
           onDelete={onDelete}
         />
       ))}

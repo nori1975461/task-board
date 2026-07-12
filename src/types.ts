@@ -1,5 +1,12 @@
-export interface Task {
+export type Priority = 'high' | 'normal' | 'low'
+
+export type Task = {
   id: string
-  text: string
+  title: string
   completed: boolean
+  createdAt: string
+  dueDate: string | null
+  priority: Priority
 }
+
+export type Filter = 'all' | 'active' | 'completed'
